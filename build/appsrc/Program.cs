@@ -7,7 +7,19 @@ var app = builder.Build();
 
 app.MapGet("/", async context =>
 {
-    await context.Response.WriteAsync("Hello World! This is my $Environment Environment.");
+    string value = Environment.GetEnvironmentVariable("region");
+    using (var log = new LoggerConfiguration()
+    .WriteTo.DatadogLogs("<API_KEY>", 
+        configuration: new DatadogConfiguration(){ Url = "https://http-intake.logs.datadoghq.com" },
+        tags = new string[] {"region:" + region})
+    .CreateLogger())
+    {
+        // Some code
+        await context.Response.WriteAsync("Hello World! This is my $Environment Environment.");
+        log.Information("This is my $Environment Environment.");
+    }
+
+    
 });
 
 app.Run();
