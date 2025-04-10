@@ -1,6 +1,7 @@
 name: "Review and deploy Test environment"
 run-name: ${{ github.actor}} is running a Terraform review and deploy to Test 🚀
 on:
+  workflow_dispatch:
   push:
     branches:
       - test

@@ -1,6 +1,7 @@
 name: "Review and deploy Production environment"
 run-name: ${{ github.actor}} is running a Terraform review and deploy to Prod 🚀
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
